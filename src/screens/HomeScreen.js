@@ -17,7 +17,6 @@ import { BellIcon, MagnifyingGlassIcon } from "react-native-heroicons/outline";
 import Categories from "../components/categories";
 import axios from "axios";
 import Recipes from "../components/recipes";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomAlert from "../components/alert";
 
 const HomeScreen = () => {
@@ -31,17 +30,7 @@ const HomeScreen = () => {
   useEffect(() => {
     getCategories();
     getRecipes();
-    // clearStorage();
   }, []);
-
-  // const clearStorage = async () => {
-  //   try {
-  //     await AsyncStorage.clear();
-  //     console.log("Storage successfully cleared!");
-  //   } catch (e) {
-  //     console.log("Failed to clear the async storage.");
-  //   }
-  // };
 
   const handleChangeCategory = (category) => {
     getRecipes(category);
@@ -85,9 +74,8 @@ const HomeScreen = () => {
       // console.log(response.data);
       if (response && response.data && response.data.meals !== null) {
         setMeals(response.data.meals);
-        setShowAlert(false); // Sembunyikan alert jika ada hasil
+        setShowAlert(false);
       } else {
-        // Tampilkan alert jika API response adalah null atau tidak ada hasil
         setAlertMessage("Resep tidak ditemukan");
         setShowAlert(true);
       }
@@ -181,12 +169,11 @@ const HomeScreen = () => {
           <Recipes categories={categories} meals={meals} />
         </View>
       </ScrollView>
-      {/* Tempatkan CustomAlert di sini dan kontrol dengan state */}
       {showAlert && (
         <CustomAlert
           title="Perhatian"
           message={alertMessage}
-          onPressOk={() => setShowAlert(false)} // Tambahkan baris ini
+          onPressOk={() => setShowAlert(false)}
           onPress={() => {
             setShowAlert(false);
           }}
